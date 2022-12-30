@@ -1,0 +1,23 @@
+Data Source: SMARD
+------------------
+
+The files smard_consumption.csv, smard_generation.csv and smard_generation_capacity.csv
+were retrieved from https://www.smard.de/en/downloadcenter/download-market-data/
+
+It is the hourly data from 2015-01-01 (earliest available) onwards.
+smard_consumption is main "Electricity consumption", and data "Actual consumption"
+smard_generation is main "Electricity generation", and data "Actual generation"
+smard_generation_capacity is main "Electricity generation", and data "Installed generation capacity"
+
+SMARD uses very poor data formatting. The MW numbers have .us style thousands separators,
+which is a comma, which then breaks CSV (comma seperated values). So instead of using the CSV format,
+XLSX should be downloaded, and the MW numbers should be reformatted.
+
+The XLSX has other issues, the data and timestamps are apostrophe escaped text, in american style format
+(like "12:00 AM" meaning 00:00). This then requires "Data->Text to colums" conversion, before a useful
+formatting style can be chosen.
+
+Then generation capacity has some in the hourly data, which were fixed, as, except for the last 4 days
+of 2021, the data does not change for whole years. These were of course fixed.
+
+Some minor inconveniences for otherwise extremely useful data.
