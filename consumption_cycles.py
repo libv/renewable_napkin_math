@@ -96,7 +96,8 @@ print("Writing data to %s" % filename_output)
 with open(filename_output, mode='w') as csv_file:
     fieldnames = ['Date', 'Total Consumption [MWh]',
                   'Average Consumption [MW]', 'Storage Cycle [MWh]']
-    csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+    csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames,
+				lineterminator='\n')
 
     csv_writer.writeheader()
     csv_writer.writerows(cycles)
