@@ -1,0 +1,3 @@
+After 8 years (2922 days), 150.00GWh of grid scale battery storage has 145.23GWh (96.82%) capacity remaining.
+A total of 227083.25GWh was cycled through the battery.
+Cycle efficiency losses amount to  22708.33GWh (10%), the average required generation capacity increase is 323.81MW.
