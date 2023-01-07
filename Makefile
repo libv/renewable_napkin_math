@@ -1,11 +1,10 @@
 .PHONY: clean all
 
 all: \
-	smard_generation_forecast.fixed.csv \
-	smard_consumption_forecast.fixed.csv \
 	lifepo4_grid_storage_150GWh_20ys.txt \
 	lifepo4_grid_storage_100GWh_20ys.txt \
-	lifepo4_grid_storage__50GWh_20ys.txt
+	lifepo4_grid_storage__50GWh_20ys.txt \
+	generation_data.csv
 
 smard_generation_forecast.fixed.csv: generation_forecast_fixup.py smard_generation_forecast.csv smard_generation.csv
 	./generation_forecast_fixup.py smard_generation_forecast.csv smard_generation.csv $@ > generation_forecast_fixup.txt
@@ -17,13 +16,18 @@ consumption_cycles.csv: consumption_cycles.py smard_consumption.csv
 	./consumption_cycles.py smard_consumption.csv $@ > consumption_cycles.txt
 
 lifepo4_grid_storage_150GWh_20ys.txt: lifepo4_grid_storage.py consumption_cycles.csv
-	./lifepo4_grid_storage.py consumption_cycles.csv 150 20 > lifepo4_grid_storage_150GWh_20ys.txt
+	./lifepo4_grid_storage.py consumption_cycles.csv 150 20 > $@
 
 lifepo4_grid_storage_100GWh_20ys.txt: lifepo4_grid_storage.py consumption_cycles.csv
-	./lifepo4_grid_storage.py consumption_cycles.csv 100 20 > lifepo4_grid_storage_100GWh_20ys.txt
+	./lifepo4_grid_storage.py consumption_cycles.csv 100 20 > $@
 
 lifepo4_grid_storage__50GWh_20ys.txt: lifepo4_grid_storage.py consumption_cycles.csv
-	./lifepo4_grid_storage.py consumption_cycles.csv 50 20 > lifepo4_grid_storage__50GWh_20ys.txt
+	./lifepo4_grid_storage.py consumption_cycles.csv 50 20 > $@
+
+generation_data.csv: ./generation_data_prepare.py smard_consumption_forecast.fixed.csv smard_consumption.csv \
+	smard_generation_capacity.csv smard_generation_forecast.fixed.csv smard_generation.csv
+
+	./generation_data_prepare.py smard_consumption_forecast.fixed.csv smard_consumption.csv smard_generation_capacity.csv smard_generation_forecast.fixed.csv smard_generation.csv $@
 
 clean:
 	rm -f smard_generation_forecast.fixed.csv
@@ -35,5 +39,6 @@ clean:
 	rm -f lifepo4_grid_storage_150GWh_20ys.txt
 	rm -f lifepo4_grid_storage_100GWh_20ys.txt
 	rm -f lifepo4_grid_storage__50GWh_20ys.txt
+	rm -f generation_data.csv
 
 install:
