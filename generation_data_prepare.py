@@ -63,12 +63,6 @@ with open(capacity_filename, mode='r') as capacity_file:
                         'Wind offshore' : float(row['Wind offshore [MW]'])}
             capacity_yearly[year] = (capacity)
 
-# add preliminary data
-future = {'Year': 2023,
-        'Photovoltaics': capacity['Photovoltaics'] + 7200.0,
-        'Wind onshore': capacity['Wind onshore'] + 2000.0,
-        'Wind offshore': 8192.0}
-capacity_yearly[2023] = future
 year_end = 2023
 
 capacity_interpolated = {}
