@@ -1,10 +1,14 @@
 .PHONY: clean all
 
 all: \
+	consumption_per_year.txt \
 	lifepo4_grid_storage_150GWh_20ys.txt \
 	lifepo4_grid_storage_100GWh_20ys.txt \
 	lifepo4_grid_storage__50GWh_20ys.txt \
 	generation_data.csv
+
+consumption_per_year.txt: consumption_per_year.py smard_consumption.csv
+	./consumption_per_year.py smard_consumption.csv > consumption_per_year.txt
 
 smard_generation_forecast.fixed.csv: generation_forecast_fixup.py smard_generation_forecast.csv smard_generation.csv
 	./generation_forecast_fixup.py smard_generation_forecast.csv smard_generation.csv $@ > generation_forecast_fixup.txt
@@ -30,6 +34,7 @@ generation_data.csv: ./generation_data_prepare.py smard_consumption_forecast.fix
 	./generation_data_prepare.py smard_consumption_forecast.fixed.csv smard_consumption.csv smard_generation_capacity.csv smard_generation_forecast.fixed.csv smard_generation.csv $@
 
 clean:
+	rm -f consumption_per_year.txt
 	rm -f smard_generation_forecast.fixed.csv
 	rm -f generation_forecast_fixup.txt
 	rm -f smard_consumption_forecast.fixed.csv
