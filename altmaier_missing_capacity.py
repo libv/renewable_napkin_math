@@ -45,7 +45,24 @@ data_offshore = [    0,     0,     0,     0,     0,
                   3283,  4152,  5406,  6393,  7555,
                   7787,  7787,  8129]
 
+if (len(sys.argv) != 2):
+    print("Error: Wrong number of arguments.")
+    print("%s <result csv>" % (sys.argv[0]))
+    sys.exit()
 
+result_filename = sys.argv[1]
+
+print(
+"The CDU/CSU (catholics) and SPD (socialists) aka GroKo (Grosse Koalition),\nunder Angela Merkel, ruled Germany from 2013 til 2021. From 2005 til 2009,\nthe same GroKo ruled. And in the time between, they were joined by the\nliberals, a political party even more conducive to lobbying.")
+print("")
+print("During the 2000s, there was a massive boom in renewable installations, and a\nwhole new industry in germany had formed to create and install renewable\ncapacity. By around 2013, it was clear that renewable energy was not only\nearnest competition to fossil fuels, and the subsidies for new installed\ncapacity were starting to weigh heavily. So subsidies were massively reduced,\nand the industry was given quite a bit of uncertainty on the future of said\nsubsidies. The resulting 'Altmaier Knick' (Peter Altmaier, the responsible\nminister) saw new solar installations collapse almost immediately, and there\nis a clear similar trend with wind 5ys later.")
+print("")
+print("The collapse of onshore wind installations after 2017 is also attributable to\nthe actions of the Bavarian gouvernment, ruled by the CSU (catholics) and\nFreie Waehler (even more conservative than the CSU). Mainly the 10H rule (wind\nturbines need to be further away from populated areas than 10x the height of\nthe turbine) made it impossible to install new wind capacity.")
+print("")
+print("The result is the near total collapse of the renewable industry in germany,\nall solar producers and most of wind turbine construction collapsed, and their\nIP and remaining assets got gobbled up by foreign entities.")
+print("")
+print("This application calculates the capacity missing, if we flatline the peak new\ninstalled capacity in 2012 and 2017 respectively. Take note, the values are\nflatlined, and not extrapolated from previous growth ratios. This is the\nabsolute lowest estimate for what capacity is missing.")
+print("")
 
 year_solar_max = 2012
 year_onshore_max = 2017
@@ -59,12 +76,28 @@ solar_missing = 0.0
 onshore_missing = 0.0
 offshore_missing = 0.0
 
+result_file = open(result_filename, mode='w')
+result_fieldnames = ['Year',
+                     'Solar Installed',
+                     'Solar Missing',
+                     'Solar Missing Fraction',
+                     'Wind onshore Installed',
+                     'Wind onshore Missing',
+                     'Wind onshore Missing Fraction',
+                     'Wind offshore Installed',
+                     'Wind offshore Missing',
+                     'Wind offshore Missing Fraction',
+]
+result_writer = csv.DictWriter(result_file, fieldnames=result_fieldnames,
+                               lineterminator='\n')
+result_writer.writeheader()
+
 for year in data_years:
     i = data_years.index(year)
 
     print("%d:" % (year))
 
-    solar = data_solar[i]
+    solar = float(data_solar[i])
     if (i):
         diff = solar - data_solar[i - 1]
     else:
@@ -80,7 +113,7 @@ for year in data_years:
     else:
         print("  Solar:\t%5dMWp: +%4dMWp" % (solar, diff))
 
-    onshore = data_onshore[i]
+    onshore = float(data_onshore[i])
     if (i):
         diff = onshore - data_onshore[i - 1]
     else:
@@ -97,7 +130,7 @@ for year in data_years:
     else:
         print("  Onshore:\t%5dMWp: +%4dMWp" % (onshore, diff))
 
-    offshore = data_offshore[i]
+    offshore = float(data_offshore[i])
     if (i):
         diff = offshore - data_offshore[i - 1]
     else:
@@ -113,42 +146,22 @@ for year in data_years:
     else:
         print("  Offshore:\t%5dMWp: +%4dMWp" % (offshore, diff))
 
-sys.exit()
-with open(installation_filename, mode='r') as installation_file:
-    installation_reader = csv.DictReader(installation_file)
-    for row in installation_reader:
-        year = int(row['Year'])
-        solar = float(row['Solar MWp'])
-        onshore = float(row['Wind Onshore MWp'])
-        offshore = float(row['Wind Offshore MWp'])
+    result = {'Year' : year,
+              'Solar Installed': solar,
+              'Solar Missing': solar_missing,
+              'Solar Missing Fraction': 0.0,
+              'Wind onshore Installed': onshore,
+              'Wind onshore Missing': onshore_missing,
+              'Wind onshore Missing Fraction': 0.0,
+              'Wind offshore Installed': offshore,
+              'Wind offshore Missing': offshore_missing,
+              'Wind offshore Missing Fraction' : 0.0}
 
-        print("%d:" % (year))
-        if (year == year_solar_max):
-            print("  Solar:\t\t%5dMWp (Maximum)" % (solar))
-            solar_max = solar
-        elif (solar_max > 0):
-            solar_missing += solar_max - solar
-            print("  Solar:\t\t%5dMWp (%5dMWp missing)" %
-                  (solar, solar_missing))
-        else:
-            print("  Solar:\t\t%5dMWp" % (solar))
+    if (solar):
+        result['Solar Missing Fraction'] = round(solar_missing / solar, 5)
+    if (onshore):
+        result['Wind onshore Missing Fraction'] = round(onshore_missing / onshore, 5)
+    if (offshore):
+        result['Wind offshore Missing Fraction'] = round(offshore_missing / offshore, 5)
 
-        if (year == year_onshore_max):
-            print("  Wind Onshore:\t\t%5dMWp (Maximum)" % (onshore))
-            onshore_max = onshore
-        elif (onshore_max > 0):
-            onshore_missing += onshore_max - onshore
-            print("  Wind Onshore:\t\t%5dMWp (%5dMWp missing)" %
-                  (onshore, onshore_missing))
-        else:
-            print("  Wind Onshore:\t\t%5dMWp" % (onshore))
-
-        if (year == year_offshore_max):
-            print("  Wind Offshore:\t%5dMWp (Maximum)" % (offshore))
-            offshore_max = offshore
-        elif (offshore_max > 0):
-            offshore_missing += offshore_max - offshore
-            print("  Wind Offshore:\t%5dMWp (%5dMWp missing)" %
-                  (offshore, offshore_missing))
-        else:
-            print("  Wind Offshore:\t%5dMWp" % (offshore))
+    result_writer.writerow(result)
