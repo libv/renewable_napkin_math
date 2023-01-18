@@ -3,8 +3,7 @@
 all: \
 	consumption_per_year.txt \
 	altmaier_missing_capacity.csv \
-	altmaier_methane_usage_compensation_2021.txt \
-	altmaier_methane_usage_compensation_2022.txt \
+	altmaier_methane_wasted.txt \
 	lifepo4_grid_storage_150GWh_20ys.txt \
 	lifepo4_grid_storage_100GWh_20ys.txt \
 	lifepo4_grid_storage__50GWh_20ys.txt \
@@ -16,11 +15,8 @@ consumption_per_year.txt: consumption_per_year.py smard_consumption.csv
 altmaier_missing_capacity.csv: altmaier_missing_capacity.py
 	./altmaier_missing_capacity.py $@ > altmaier_missing_capacity.txt
 
-altmaier_methane_usage_compensation_2021.txt: altmaier_methane_usage_compensation.py smard_generation.csv cegh_at_methane_day-ahead.csv
-	./altmaier_methane_usage_compensation.py smard_generation.csv cegh_at_methane_day-ahead.csv 2021 0.8514 0.1917 0.1773 > $@
-
-altmaier_methane_usage_compensation_2022.txt: altmaier_methane_usage_compensation.py smard_generation.csv cegh_at_methane_day-ahead.csv
-	./altmaier_methane_usage_compensation.py smard_generation.csv cegh_at_methane_day-ahead.csv 2022 0.8110 0.2443 0.3384 > $@
+altmaier_methane_wasted.txt: altmaier_methane_wasted.py smard_generation.csv cegh_at_methane_day-ahead.csv altmaier_missing_capacity.csv
+	./altmaier_methane_wasted.py smard_generation.csv cegh_at_methane_day-ahead.csv altmaier_missing_capacity.csv > $@
 
 smard_generation_forecast.fixed.csv: generation_forecast_fixup.py smard_generation_forecast.csv smard_generation.csv
 	./generation_forecast_fixup.py smard_generation_forecast.csv smard_generation.csv $@ > generation_forecast_fixup.txt
@@ -49,8 +45,7 @@ clean:
 	rm -f consumption_per_year.txt
 	rm -f altmaier_missing_capacity.txt
 	rm -f altmaier_missing_capacity.csv
-	rm -f altmaier_methane_usage_compensation_2021.txt
-	rm -f altmaier_methane_usage_compensation_2022.txt
+	rm -f altmaier_methane_wasted.txt
 	rm -f smard_generation_forecast.fixed.csv
 	rm -f generation_forecast_fixup.txt
 	rm -f smard_consumption_forecast.fixed.csv
