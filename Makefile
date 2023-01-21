@@ -7,7 +7,7 @@ all: \
 	lifepo4_grid_storage_150GWh_20ys.txt \
 	lifepo4_grid_storage_100GWh_20ys.txt \
 	lifepo4_grid_storage__50GWh_20ys.txt \
-	generation_data.csv
+	generation_simulate_2045.txt
 
 consumption_per_year.txt: consumption_per_year.py smard_consumption.csv
 	./consumption_per_year.py smard_consumption.csv > consumption_per_year.txt
@@ -41,6 +41,9 @@ generation_data.csv: ./generation_data_prepare.py smard_consumption_forecast.fix
 
 	./generation_data_prepare.py smard_consumption_forecast.fixed.csv smard_consumption.csv smard_generation_capacity.csv smard_generation_forecast.fixed.csv smard_generation.csv $@
 
+generation_simulate_2045.txt: generation_simulate.py generation_data.csv
+	./generation_simulate.py generation_data.csv 2.0 182.5 70 500 50 5000 > $@
+
 clean:
 	rm -f consumption_per_year.txt
 	rm -f altmaier_missing_capacity.txt
@@ -56,5 +59,6 @@ clean:
 	rm -f lifepo4_grid_storage_100GWh_20ys.txt
 	rm -f lifepo4_grid_storage__50GWh_20ys.txt
 	rm -f generation_data.csv
+	rm -f generation_simulate_2045.txt
 
 install:

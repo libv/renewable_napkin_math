@@ -71,6 +71,7 @@ while True:
     #print(data)
 
     date = data['Date']
+    hydro = float(data['Hydropower actual'])
     onshore = capacity_onshore * float(data['Wind onshore actual'])
     offshore = capacity_offshore * float(data['Wind offshore actual'])
     solar = capacity_solar * float(data['Photovoltaics actual'])
@@ -91,7 +92,7 @@ while True:
         biomethane_power = 0.0
         storage_methane += methane
 
-    total = onshore + offshore + solar + biomethane_power
+    total = hydro + onshore + offshore + solar + biomethane_power
     load = float(data['Load actual']) * load_factor
     difference = total - load
 
@@ -122,16 +123,17 @@ while True:
            storage_methane / 1000000, 100 * storage_methane / 270000000))
 
     if (missing):
-        print("\t%6.2fGW: %6.2fGW + %6.2fGW + %6.2fGW + %6.2fGW: %6.2fGW missing" %
-              (load / 1000, onshore / 1000, offshore / 1000, solar / 1000, biomethane_power / 1000,
-               missing / 1000))
+        print("\t%6.2fGW: %4.2fGW + %6.2fGW + %6.2fGW + %6.2fGW + %6.2fGW: %6.2fGW missing" %
+              (load / 1000, hydro / 1000, onshore / 1000, offshore / 1000, solar / 1000,
+               biomethane_power / 1000, missing / 1000))
     elif (wasted):
-        print("\t%6.2fGW: %6.2fGW + %6.2fGW + %6.2fGW + %6.2fGW: %6.2fGW wasted" %
-              (load / 1000, onshore / 1000, offshore / 1000, solar / 1000, biomethane_power / 1000,
-               wasted / 1000))
+        print("\t%6.2fGW: %4.2fGW + %6.2fGW + %6.2fGW + %6.2fGW + %6.2fGW: %6.2fGW wasted" %
+              (load / 1000, hydro / 1000, onshore / 1000, offshore / 1000, solar / 1000,
+               biomethane_power / 1000, wasted / 1000))
     else:
-        print("\t%6.2fGW: %6.2fGW + %6.2fGW + %6.2fGW + %6.2fGW" %
-              (load / 1000, onshore / 1000, offshore / 1000, solar / 1000, biomethane_power / 1000))
+        print("\t%6.2fGW: %4.2fGW + %6.2fGW + %6.2fGW + %6.2fGW + %6.2fGW" %
+              (load / 1000, hydro / 1000, onshore / 1000, offshore / 1000, solar / 1000,
+               biomethane_power / 1000))
 
     if (date.endswith("-12-31") and data['Time'] == "23:00"):
         print("")
