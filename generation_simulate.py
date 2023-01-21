@@ -19,7 +19,7 @@ import csv
 
 if (len(sys.argv) != 8):
     print("Error: Wrong number of arguments.")
-    print("%s <generation data csv> <load factor> <onshore wind GW> <offshore wind GW> <solar GW> <storage GWh> <biogas GW> " %
+    print("%s <generation data csv> <load factor> <onshore wind GW> <offshore wind GW> <solar GW> <biomethane GW> <storage GWh>" %
           (sys.argv[0]))
     sys.exit()
 
@@ -28,18 +28,25 @@ load_factor = float(sys.argv[2])
 capacity_onshore = float(sys.argv[3]) * 1000.0
 capacity_offshore = float(sys.argv[4]) * 1000.0
 capacity_solar = float(sys.argv[5]) * 1000.0
-capacity_storage = float(sys.argv[6]) * 1000.0
-capacity_biogas = float(sys.argv[7]) * 1000.0
+capacity_biomethane = float(sys.argv[6]) * 1000.0
+capacity_storage_battery = float(sys.argv[7]) * 1000.0
 
 capacity_storage_methane = 270000000.0 # 270TWht
 
-print("Reading generation data from %s" % data_filename)
-
 print("Simulating direct generation for:")
-print("  %5.1fMW of onshore wind," % capacity_onshore)
-print("  %5.1fMW of offshore wind," % capacity_offshore)
-print("  %5.1fMW of photovoltaics," % capacity_solar)
-print("  %5.1fMWh of grid storage," % capacity_storage)
+print("")
+print("    %4.2fx grid load over historic data." % (load_factor))
+print("")
+print("    %5.1fGW  of onshore wind," % (capacity_onshore / 1000))
+print("    %5.1fGW  of offshore wind," % (capacity_offshore / 1000))
+print("    %5.1fGW  of photovoltaics," % (capacity_solar / 1000))
+print("    %5.1fGW  of biomethane production," % (capacity_biomethane / 1000))
+print("")
+print(" %8.1fGWh of grid level battery storage," % (capacity_storage_battery / 1000))
+print(" %8.1fGWh of geological methane storage," % (capacity_storage_methane / 1000))
+print("")
+print("Retrieving data from %s" % data_filename)
+print("")
 
 data_file = open(data_filename, mode='r')
 data_reader = csv.DictReader(data_file)
@@ -49,8 +56,13 @@ average_days = 0
 wasted_total = 0.0
 missing_total = 0.0
 
+wasted_yearly = 0.0
+missing_yearly = 0.0
+
 storage = 0.0
-storage_methane = 90 * 24 * 0.9 * capacity_biogas
+
+# give it a 3 months in the tank
+storage_methane = 90 * 24 * 0.9 * capacity_biomethane
 
 while True:
     data = next(data_reader, None)
@@ -58,27 +70,28 @@ while True:
         break
     #print(data)
 
+    date = data['Date']
     onshore = capacity_onshore * float(data['Wind onshore actual'])
     offshore = capacity_offshore * float(data['Wind offshore actual'])
     solar = capacity_solar * float(data['Photovoltaics actual'])
-    methane = 0.90 * capacity_biogas
+    methane = 0.90 * capacity_biomethane
 
-    month = int(data['Date'][5:7])
+    month = int(date[5:7])
     if ((month in [10, 11, 12, 01, 02, 03]) and
         (storage < 100000000.0)):
-        biogas_power = 0.50 * methane
+        biomethane_power = 0.50 * methane
 
         if (storage_methane > 0):
             draw = 0.95 * methane
             if (draw > storage_methane):
                 draw = storage_methane
-            biogas_power += 0.50 * draw
+            biomethane_power += 0.50 * draw
             storage_methane -= draw
     else:
-        biogas_power = 0.0
+        biomethane_power = 0.0
         storage_methane += methane
 
-    total = onshore + offshore + solar + biogas_power
+    total = onshore + offshore + solar + biomethane_power
     load = float(data['Load actual']) * load_factor
     difference = total - load
 
@@ -88,36 +101,51 @@ while True:
     wasted = 0.0
     missing = 0.0
     if (difference >= 0):
-        if (storage + (0.95 * difference) > capacity_storage):
-            wasted = difference - ((capacity_storage - storage) / 0.95)
+        if (storage + (0.95 * difference) > capacity_storage_battery):
+            wasted = difference - ((capacity_storage_battery - storage) / 0.95)
+            wasted_yearly += wasted
             wasted_total += wasted
-            storage = capacity_storage
+            storage = capacity_storage_battery
         else:
             storage += 0.95 * difference
     else:
         if ((storage * -0.95) > difference):
             missing = (storage * -0.95) - difference
+            missing_yearly += missing
             missing_total += missing
             storage = 0
         else:
             storage += difference / 0.95
 
+    print("%s %s: Storage:  Battery: %4.2fTWh (%6.2f%%), Methane: %5.2fTWh (%6.2f%%)." %
+          (date, data['Time'], storage / 1000000, 100.0 * storage / capacity_storage_battery,
+           storage_methane / 1000000, 100 * storage_methane / 270000000))
+
     if (missing):
-        print("%s %s: %9.2fMW + %9.2fMW + %9.2fMW + %9.2fMW = %10.2fMW of %10.2fMW (%10.2fMW): "
-              "battery %10.2fMWh (%6.2f%%) stored, methane %10.2fGWh : %10.2fMW missing" %
-              (data['Date'], data['Time'], onshore, offshore, solar, biogas_power, total, load, difference,
-               storage, storage / capacity_storage * 100.0, storage_methane, missing))
+        print("\t%6.2fGW: %6.2fGW + %6.2fGW + %6.2fGW + %6.2fGW: %6.2fGW missing" %
+              (load / 1000, onshore / 1000, offshore / 1000, solar / 1000, biomethane_power / 1000,
+               missing / 1000))
     elif (wasted):
-        print("%s %s: %9.2fMW + %9.2fMW + %9.2fMW + %9.2fMW = %10.2fMW of %10.2fMW (%10.2fMW): "
-              "battery %10.2fMWh (%6.2f%%) stored : methane %10.2fGWh : %10.2fMW wasted" %
-              (data['Date'], data['Time'], onshore, offshore, solar, biogas_power, total, load, difference,
-               storage, storage / capacity_storage * 100.0, storage_methane, wasted))
+        print("\t%6.2fGW: %6.2fGW + %6.2fGW + %6.2fGW + %6.2fGW: %6.2fGW wasted" %
+              (load / 1000, onshore / 1000, offshore / 1000, solar / 1000, biomethane_power / 1000,
+               wasted / 1000))
     else:
-        print("%s %s: %9.2fMW + %9.2fMW + %9.2fMW + %9.2fMW = %10.2fMW of %10.2fMW (%10.2fMW): "
-              "battery %10.2fMWh (%6.2f%%) stored, methane %10.2fGWh" %
-              (data['Date'], data['Time'], onshore, offshore, solar, biogas_power, total, load, difference,
-               storage, storage / capacity_storage * 100.0, storage_methane))
+        print("\t%6.2fGW: %6.2fGW + %6.2fGW + %6.2fGW + %6.2fGW" %
+              (load / 1000, onshore / 1000, offshore / 1000, solar / 1000, biomethane_power / 1000))
 
+    if (date.endswith("-12-31") and data['Time'] == "23:00"):
+        print("")
+        print("%s:" % (date[0:4]))
+        print("Missing %6.2fTWh, wasted %6.2fTWh" % (missing_yearly / 1000000.0, wasted_yearly / 1000000.0))
+        missing_yearly = 0.0
+        wasted_yearly = 0.0
 
-print("Average difference is %9.2fMW" % (average_difference / average_days))
-print("Missing %10.2fTWh, wasted %10.2fTWh" % (missing_total / 1000000.0, wasted_total / 1000000.0))
+        print("")
+
+        # we will need forecast data soon.
+        if (date[0:4] == "2022"):
+            break
+
+print("Totals:")
+print("Average difference is %6.2fGW" % (average_difference / average_days))
+print("Missing %6.2fTWh, wasted %6.2fTWh" % (missing_total / 1000000.0, wasted_total / 1000000.0))
