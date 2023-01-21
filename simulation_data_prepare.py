@@ -17,10 +17,11 @@
 import sys
 import csv
 
-if (len(sys.argv) != 7):
+if (len(sys.argv) != 8):
     print("Error: Wrong number of arguments.")
     print("%s <consumption forecast csv> <consumption actual csv> <generation "
-          "forecast csv> <generation actual csv> <generation capacity csv> <output csv>" % (sys.argv[0]))
+          "forecast csv> <generation actual csv> <generation capacity csv> "
+          "<output forecast csv> <output actual csv>" % (sys.argv[0]))
     sys.exit()
 
 load_forecast_filename = sys.argv[1]
@@ -28,14 +29,16 @@ load_actual_filename = sys.argv[2]
 capacity_filename = sys.argv[3]
 forecast_filename = sys.argv[4]
 actual_filename = sys.argv[5]
-result_filename = sys.argv[6]
+result_forecast_filename = sys.argv[6]
+result_actual_filename = sys.argv[7]
 
 #print("Reading grid load forecast data from %s" % load_forecast_filename)
 #print("Reading actual grid load data from %s" % load_actual_filename)
 #print("Reading generation capacity data from %s" % capacity_filename)
 #print("Reading generation forecast data from %s" % forecast_filename)
 #print("Reading actual generation data from %s" % actual_filename)
-#print("Writing resulting generation data to %s" % result_filename)
+print("Writing resulting forecast data to %s" % result_forecast_filename)
+print("Writing resulting actual data to %s" % result_actual_filename)
 
 year_start = 10000
 year_end = 0
@@ -99,25 +102,26 @@ forecast_reader = csv.DictReader(forecast_file)
 actual_file = open(actual_filename, mode='r')
 actual_reader = csv.DictReader(actual_file)
 
-result_file = open(result_filename, mode='w')
 result_fieldnames = ['Date',
                      'Time',
-                     'Load forecast',
-                     'Load actual',
-                     'Hydropower actual',
-                     'Wind onshore forecast',
-                     'Wind onshore actual',
-                     #'Wind onshore capacity',
-                     'Wind offshore forecast',
-                     'Wind offshore actual',
-                     #'Wind offshore capacity',
-                     'Photovoltaics forecast',
-                     'Photovoltaics actual',
-                     #'Photovoltaics capacity',
+                     'Load',
+                     'Hydropower',
+                     'Wind onshore',
+                     'Wind offshore',
+                     'Photovoltaics',
 ]
-result_writer = csv.DictWriter(result_file, fieldnames=result_fieldnames,
-                               lineterminator='\n')
-result_writer.writeheader()
+
+result_forecast_file = open(result_forecast_filename, mode='w')
+result_forecast_writer = csv.DictWriter(result_forecast_file,
+                                        fieldnames=result_fieldnames,
+                                        lineterminator='\n')
+result_forecast_writer.writeheader()
+
+result_actual_file = open(result_actual_filename, mode='w')
+result_actual_writer = csv.DictWriter(result_actual_file,
+                                      fieldnames=result_fieldnames,
+                                      lineterminator='\n')
+result_actual_writer.writeheader()
 
 photovoltaics_capacity = 0.0
 wind_onshore_capacity = 0.0
@@ -127,25 +131,25 @@ wind_onshore_growth = 0.0
 wind_offshore_growth = 0.0
 
 while True:
-    load_forecast = next(load_forecast_reader, None)
-    if (load_forecast == None):
-        break
-    #print(load_forecast)
-
     load_actual = next(load_actual_reader, None)
     if (load_actual == None):
         break
     #print(load_actual)
 
-    forecast = next(forecast_reader, None)
-    if (forecast == None):
-        break
-    #print(forecast)
-
     actual = next(actual_reader, None)
     if (actual == None):
         break
     #print(actual)
+
+    load_forecast = next(load_forecast_reader, None)
+    if (load_forecast == None):
+        break
+    #print(load_forecast)
+
+    forecast = next(forecast_reader, None)
+    if (forecast == None):
+        break
+    #print(forecast)
 
     if ((load_forecast['Date'] != load_actual['Date']) or
         (load_forecast['Start'] != load_actual['Time']) or
@@ -179,21 +183,66 @@ while True:
             wind_onshore_capacity += wind_onshore_growth
             wind_offshore_capacity += wind_offshore_growth
 
+    result_forecast = {'Date': forecast['Date'],
+                       'Time': forecast['Start'],
+                       'Load' : round(float(load_forecast['Total (grid load) [MWh]']), 2),
+                       'Hydropower' : actual['Hydropower [MWh]'], # no forecase data available
+                       'Photovoltaics': round((float(forecast['Photovoltaics [MWh]']) / photovoltaics_capacity), 4),
+                       'Wind onshore': round((float(forecast['Wind onshore [MWh]']) / wind_onshore_capacity), 4),
+                       'Wind offshore': round((float(forecast['Wind offshore [MWh]']) / wind_offshore_capacity), 4),
+    }
+    result_forecast_writer.writerow(result_forecast)
+
     result = {'Date': forecast['Date'],
               'Time': forecast['Start'],
-              'Load forecast' : round(float(load_forecast['Total (grid load) [MWh]']), 2),
-              'Load actual' : round(float(load_actual['Total (grid load) [MWh]']), 2),
-              'Hydropower actual' : actual['Hydropower [MWh]'],
-              'Photovoltaics forecast': round((float(forecast['Photovoltaics [MWh]']) / photovoltaics_capacity), 4),
-              'Photovoltaics actual': round((float(actual['Photovoltaics [MWh]']) / photovoltaics_capacity), 4),
-              #'Photovoltaics capacity': round(photovoltaics_capacity, 2),
-              'Wind onshore forecast': round((float(forecast['Wind onshore [MWh]']) / wind_onshore_capacity), 4),
-              'Wind onshore actual': round((float(actual['Wind onshore [MWh]']) / wind_onshore_capacity), 4),
-              #'Wind onshore capacity': round(wind_onshore_capacity, 2),
-              'Wind offshore forecast': round((float(forecast['Wind offshore [MWh]']) / wind_offshore_capacity), 4),
-              'Wind offshore actual': round((float(actual['Wind offshore [MWh]']) / wind_offshore_capacity), 4),
-              #'Wind offshore capacity': round(wind_offshore_capacity, 2),
+              'Load' : round(float(load_actual['Total (grid load) [MWh]']), 2),
+              'Hydropower' : actual['Hydropower [MWh]'],
+              'Photovoltaics': round((float(actual['Photovoltaics [MWh]']) / photovoltaics_capacity), 4),
+              'Wind onshore': round((float(actual['Wind onshore [MWh]']) / wind_onshore_capacity), 4),
+              'Wind offshore': round((float(actual['Wind offshore [MWh]']) / wind_offshore_capacity), 4),
     }
 
     #print(result)
-    result_writer.writerow(result)
+    result_actual_writer.writerow(result)
+
+
+#
+# Now we need several further days of forecasts.
+#
+if (load_forecast == None):
+    sys.exit()
+if (load_forecast['Start'] == "23:00"):
+    load_forecast = next(load_forecast_reader, None)
+    if (load_forecast == None):
+        sys.exit()
+
+print("Load_forecast:")
+#print(load_forecast)
+
+if (forecast == None):
+    sys.exit()
+if (forecast['Start'] == "23:00"):
+    forecast = next(forecast_reader, None)
+    if (forecast == None):
+        sys.exit()
+print("Forecast")
+#print(forecast)
+
+while True:
+    result_forecast = {'Date': forecast['Date'],
+                       'Time': forecast['Start'],
+                       'Load' : round(float(load_forecast['Total (grid load) [MWh]']), 2),
+                       'Hydropower' : "1250.00", # no forecase data available
+                       'Photovoltaics': round((float(forecast['Photovoltaics [MWh]']) / photovoltaics_capacity), 4),
+                       'Wind onshore': round((float(forecast['Wind onshore [MWh]']) / wind_onshore_capacity), 4),
+                       'Wind offshore': round((float(forecast['Wind offshore [MWh]']) / wind_offshore_capacity), 4),
+    }
+    result_forecast_writer.writerow(result_forecast)
+
+    load_forecast = next(load_forecast_reader, None)
+    if (load_forecast == None):
+        break
+
+    forecast = next(forecast_reader, None)
+    if (forecast == None):
+        break

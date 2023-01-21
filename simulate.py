@@ -17,19 +17,20 @@
 import sys
 import csv
 
-if (len(sys.argv) != 8):
+if (len(sys.argv) != 9):
     print("Error: Wrong number of arguments.")
-    print("%s <generation data csv> <load factor> <onshore wind GW> <offshore wind GW> <solar GW> <biomethane GW> <storage GWh>" %
+    print("%s <forecast data csv> <actual data csv>  <load factor> <onshore wind GW> <offshore wind GW> <solar GW> <biomethane GW> <storage GWh>" %
           (sys.argv[0]))
     sys.exit()
 
-data_filename = sys.argv[1]
-load_factor = float(sys.argv[2])
-capacity_onshore = float(sys.argv[3]) * 1000.0
-capacity_offshore = float(sys.argv[4]) * 1000.0
-capacity_solar = float(sys.argv[5]) * 1000.0
-capacity_biomethane = float(sys.argv[6]) * 1000.0
-capacity_storage_battery = float(sys.argv[7]) * 1000.0
+data_forecast_filename = sys.argv[1]
+data_actual_filename = sys.argv[2]
+load_factor = float(sys.argv[3])
+capacity_onshore = float(sys.argv[4]) * 1000.0
+capacity_offshore = float(sys.argv[5]) * 1000.0
+capacity_solar = float(sys.argv[6]) * 1000.0
+capacity_biomethane = float(sys.argv[7]) * 1000.0
+capacity_storage_battery = float(sys.argv[8]) * 1000.0
 
 capacity_storage_methane = 270000000.0 # 270TWht
 
@@ -45,11 +46,15 @@ print("")
 print(" %8.1fGWh of grid level battery storage," % (capacity_storage_battery / 1000))
 print(" %8.1fGWh of geological methane storage," % (capacity_storage_methane / 1000))
 print("")
-print("Retrieving data from %s" % data_filename)
+print("Retrieving forecast data from %s" % data_forecast_filename)
+print("Retrieving actual data from %s" % data_actual_filename)
 print("")
 
-data_file = open(data_filename, mode='r')
-data_reader = csv.DictReader(data_file)
+data_forecast_file = open(data_forecast_filename, mode='r')
+data_forecast_reader = csv.DictReader(data_forecast_file)
+
+data_actual_file = open(data_actual_filename, mode='r')
+data_actual_reader = csv.DictReader(data_actual_file)
 
 average_difference = 0.0
 average_days = 0
@@ -65,16 +70,16 @@ storage = 0.0
 storage_methane = 90 * 24 * 0.9 * capacity_biomethane
 
 while True:
-    data = next(data_reader, None)
-    if (data == None):
+    data_actual = next(data_actual_reader, None)
+    if (data_actual == None):
         break
-    #print(data)
+    #print(data_actual)
 
-    date = data['Date']
-    hydro = float(data['Hydropower actual'])
-    onshore = capacity_onshore * float(data['Wind onshore actual'])
-    offshore = capacity_offshore * float(data['Wind offshore actual'])
-    solar = capacity_solar * float(data['Photovoltaics actual'])
+    date = data_actual['Date']
+    hydro = float(data_actual['Hydropower'])
+    onshore = capacity_onshore * float(data_actual['Wind onshore'])
+    offshore = capacity_offshore * float(data_actual['Wind offshore'])
+    solar = capacity_solar * float(data_actual['Photovoltaics'])
     methane = 0.90 * capacity_biomethane
 
     month = int(date[5:7])
@@ -93,7 +98,7 @@ while True:
         storage_methane += methane
 
     total = hydro + onshore + offshore + solar + biomethane_power
-    load = float(data['Load actual']) * load_factor
+    load = float(data_actual['Load']) * load_factor
     difference = total - load
 
     average_difference += difference
@@ -119,7 +124,7 @@ while True:
             storage += difference / 0.95
 
     print("%s %s: Storage:  Battery: %4.2fTWh (%6.2f%%), Methane: %5.2fTWh (%6.2f%%)." %
-          (date, data['Time'], storage / 1000000, 100.0 * storage / capacity_storage_battery,
+          (date, data_actual['Time'], storage / 1000000, 100.0 * storage / capacity_storage_battery,
            storage_methane / 1000000, 100 * storage_methane / 270000000))
 
     if (missing):
@@ -135,7 +140,7 @@ while True:
               (load / 1000, hydro / 1000, onshore / 1000, offshore / 1000, solar / 1000,
                biomethane_power / 1000))
 
-    if (date.endswith("-12-31") and data['Time'] == "23:00"):
+    if (date.endswith("-12-31") and data_actual['Time'] == "23:00"):
         print("")
         print("%s:" % (date[0:4]))
         print("Missing %6.2fTWh, wasted %6.2fTWh" % (missing_yearly / 1000000.0, wasted_yearly / 1000000.0))

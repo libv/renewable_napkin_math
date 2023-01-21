@@ -36,13 +36,13 @@ lifepo4_grid_storage_100GWh_20ys.txt: lifepo4_grid_storage.py consumption_cycles
 lifepo4_grid_storage__50GWh_20ys.txt: lifepo4_grid_storage.py consumption_cycles.csv
 	./lifepo4_grid_storage.py consumption_cycles.csv 50 20 > $@
 
-simulation_data.csv: ./simulation_data_prepare.py smard_consumption_forecast.fixed.csv smard_consumption.csv \
+simulation_data_forecast.csv: ./simulation_data_prepare.py smard_consumption_forecast.fixed.csv smard_consumption.csv \
 	smard_generation_capacity.csv smard_generation_forecast.fixed.csv smard_generation.csv
 
-	./simulation_data_prepare.py smard_consumption_forecast.fixed.csv smard_consumption.csv smard_generation_capacity.csv smard_generation_forecast.fixed.csv smard_generation.csv $@
+	./simulation_data_prepare.py smard_consumption_forecast.fixed.csv smard_consumption.csv smard_generation_capacity.csv smard_generation_forecast.fixed.csv smard_generation.csv $@ simulation_data_actual.csv
 
-simulate_2045.txt: simulate.py simulation_data.csv
-	./simulate.py simulation_data.csv 2.0 182.5 70 500 50 5000 > $@
+simulate_2045.txt: simulate.py simulation_data_forecast.csv simulation_data_actual.csv
+	./simulate.py simulation_data_forecast.csv simulation_data_actual.csv 2.0 182.5 70 500 50 5000 > $@
 
 clean:
 	rm -f consumption_per_year.txt
@@ -58,7 +58,8 @@ clean:
 	rm -f lifepo4_grid_storage_150GWh_20ys.txt
 	rm -f lifepo4_grid_storage_100GWh_20ys.txt
 	rm -f lifepo4_grid_storage__50GWh_20ys.txt
-	rm -f simulation_data.csv
+	rm -f simulation_data_forecast.csv
+	rm -f simulation_data_actual.csv
 	rm -f simulate_2045.txt
 
 install:
