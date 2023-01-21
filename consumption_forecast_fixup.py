@@ -38,20 +38,19 @@ while True:
     #print(forecast)
 
     actual = next(reader_actual, None)
-    if (actual == None):
-        break
-    #print(actual)
 
-    if ((forecast['Date'] != actual['Date']) or
-        (forecast['Start'] != actual['Time'])):
-        print("Error: mismatched rows:")
-        print("  forecast: %s %s" % (forecast['Date'], forecast['Start']))
-        print("  actual: %s %s" % (actual['Date'], actual['Start']))
-        sys.exit()
+    # We should have 3 days worth of forecasts more than actual data.
+    if (actual != None):
+        if ((forecast['Date'] != actual['Date']) or
+            (forecast['Start'] != actual['Time'])):
+            print("Error: mismatched rows:")
+            print("  forecast: %s %s" % (forecast['Date'], forecast['Start']))
+            print("  actual: %s %s" % (actual['Date'], actual['Start']))
+            sys.exit()
 
-    if (forecast['Total (grid load) [MWh]'] == '-'):
-        print("Fixing up %s %s" % (forecast['Date'], forecast['Start']))
-        forecast['Total (grid load) [MWh]'] = actual['Total (grid load) [MWh]']
+        if (forecast['Total (grid load) [MWh]'] == '-'):
+            print("Fixing up %s %s" % (forecast['Date'], forecast['Start']))
+            forecast['Total (grid load) [MWh]'] = actual['Total (grid load) [MWh]']
 
     output.append(forecast)
 

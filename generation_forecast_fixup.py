@@ -40,28 +40,27 @@ while True:
     #print(forecast)
 
     actual = next(reader_actual, None)
-    if (actual == None):
-        break
-    #print(actual)
 
-    if ((forecast['Date'] != actual['Date']) or
-        (forecast['Start'] != actual['Start'])):
-        print("Error: mismatched rows:")
-        print("  forecast: %s %s" % (forecast['Date'], forecast['Start']))
-        print("  actual: %s %s" % (actual['Date'], actual['Start']))
-        sys.exit()
+    # We should have 3days worth of forecasts more than actual data
+    if (actual != None):
+        if ((forecast['Date'] != actual['Date']) or
+            (forecast['Start'] != actual['Start'])):
+            print("Error: mismatched rows:")
+            print("  forecast: %s %s" % (forecast['Date'], forecast['Start']))
+            print("  actual: %s %s" % (actual['Date'], actual['Start']))
+            sys.exit()
 
-    if (forecast['Wind offshore [MWh]'] == '-'):
-        print("Fixing up offshore wind for %s %s" % (forecast['Date'], forecast['Start']))
-        forecast['Wind offshore [MWh]'] = actual['Wind offshore [MWh]']
+        if (forecast['Wind offshore [MWh]'] == '-'):
+            print("Fixing up offshore wind for %s %s" % (forecast['Date'], forecast['Start']))
+            forecast['Wind offshore [MWh]'] = actual['Wind offshore [MWh]']
 
-    if (forecast['Wind onshore [MWh]'] == '-'):
-        print("Fixing up onshore wind for %s %s" % (forecast['Date'], forecast['Start']))
-        forecast['Wind onshore [MWh]'] = actual['Wind onshore [MWh]']
+        if (forecast['Wind onshore [MWh]'] == '-'):
+            print("Fixing up onshore wind for %s %s" % (forecast['Date'], forecast['Start']))
+            forecast['Wind onshore [MWh]'] = actual['Wind onshore [MWh]']
 
-    if (forecast['Photovoltaics [MWh]'] == '-'):
-        print("Fixing up Photovoltaics wind for %s %s" % (forecast['Date'], forecast['Start']))
-        forecast['Photovoltaics [MWh]'] = actual['Photovoltaics [MWh]']
+        if (forecast['Photovoltaics [MWh]'] == '-'):
+            print("Fixing up Photovoltaics wind for %s %s" % (forecast['Date'], forecast['Start']))
+            forecast['Photovoltaics [MWh]'] = actual['Photovoltaics [MWh]']
 
     output.append(forecast)
 
