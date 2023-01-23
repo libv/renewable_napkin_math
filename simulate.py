@@ -120,41 +120,46 @@ while True:
     average_difference += difference
     average_days += 1
 
+    battery_flow = 0.0
     wasted = 0.0
     missing = 0.0
     if (difference >= 0):
         if (storage_battery + (capacity_storage_battery_charge_efficiency * difference) > capacity_storage_battery):
-            wasted = difference - ((capacity_storage_battery - storage_battery) / capacity_storage_battery_charge_efficiency)
+            battery_flow = (capacity_storage_battery - storage_battery) / capacity_storage_battery_charge_efficiency
+            storage_battery = capacity_storage_battery
+            wasted = difference - battery_flow
             wasted_yearly += wasted
             wasted_total += wasted
-            storage_battery = capacity_storage_battery
         else:
-            storage_battery += capacity_storage_battery_charge_efficiency * difference
+            battery_flow = capacity_storage_battery_charge_efficiency * difference
+            storage_battery += battery_flow
     else:
         if ((storage_battery * -capacity_storage_battery_discharge_efficiency) > difference):
-            missing = (storage_battery * -capacity_storage_battery_discharge_efficiency) - difference
+            battery_flow = -storage_battery * capacity_storage_battery_discharge_efficiency
+            missing = -(difference + battery_flow)
             missing_yearly += missing
             missing_total += missing
             storage_battery = 0
         else:
-            storage_battery += difference / capacity_storage_battery_discharge_efficiency
+            battery_flow = difference / capacity_storage_battery_discharge_efficiency
+            storage_battery += battery_flow
 
     print("%s %s: Storage:  Battery: %4.2fTWh (%6.2f%%), Methane: %5.2fTWh (%6.2f%%)." %
           (date, data_actual['Time'], storage_battery / 1000000, 100.0 * storage_battery / capacity_storage_battery,
            storage_methane / 1000000, 100 * storage_methane / 270000000))
 
     if (missing):
-        print("\t%6.2fGW: %4.2fGW + %6.2fGW + %6.2fGW + %6.2fGW + %6.2fGW: %6.2fGW missing" %
+        print("\t%6.2fGW: %4.2fGW + %6.2fGW + %6.2fGW + %6.2fGW + %7.2fGW + %6.2fGW: %6.2fGW missing" %
               (load / 1000, hydro / 1000, onshore / 1000, offshore / 1000, solar / 1000,
-               biomethane_power / 1000, missing / 1000))
+               - battery_flow / 1000, biomethane_power / 1000, missing / 1000))
     elif (wasted):
-        print("\t%6.2fGW: %4.2fGW + %6.2fGW + %6.2fGW + %6.2fGW + %6.2fGW: %6.2fGW wasted" %
+        print("\t%6.2fGW: %4.2fGW + %6.2fGW + %6.2fGW + %6.2fGW + %7.2fGW + %6.2fGW: %6.2fGW wasted" %
               (load / 1000, hydro / 1000, onshore / 1000, offshore / 1000, solar / 1000,
-               biomethane_power / 1000, wasted / 1000))
+               - battery_flow / 1000, biomethane_power / 1000, wasted / 1000))
     else:
-        print("\t%6.2fGW: %4.2fGW + %6.2fGW + %6.2fGW + %6.2fGW + %6.2fGW" %
+        print("\t%6.2fGW: %4.2fGW + %6.2fGW + %6.2fGW + %6.2fGW + %7.2fGW + %6.2fGW" %
               (load / 1000, hydro / 1000, onshore / 1000, offshore / 1000, solar / 1000,
-               biomethane_power / 1000))
+               - battery_flow / 1000, biomethane_power / 1000))
 
     if (date.endswith("-12-31") and data_actual['Time'] == "23:00"):
         print("")
