@@ -10,9 +10,6 @@
 # We keep the generation information as a fraction of installed capacity for
 # ease of calculation.
 #
-#
-# Data for new capacity for 2022 is still preliminary: 7200.0 of solar,
-# 2000.0 for onshore wind. Offshore wind is already known at a total of 8129MW
 
 import sys
 import csv
