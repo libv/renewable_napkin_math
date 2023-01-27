@@ -78,14 +78,23 @@ data_actual_file = open(data_actual_filename, mode='r')
 data_actual_reader = csv.DictReader(data_actual_file)
 
 average_difference = 0.0
-average_days = 0
+average_hours = 0
 wasted_total = 0.0
 missing_total = 0.0
 
+hours = 0
+load_yearly = 0.0
+hydro_yearly = 0.0
+onshore_yearly = 0.0
+offshore_yearly = 0.0
+solar_yearly = 0.0
+biomethane_power_yearly = 0.0
 wasted_yearly = 0.0
 missing_yearly = 0.0
 
 while True:
+    hours += 1
+
     data_actual = next(data_actual_reader, None)
     if (data_actual == None):
         break
@@ -97,6 +106,11 @@ while True:
     offshore = capacity_offshore * float(data_actual['Wind offshore'])
     solar = capacity_solar * float(data_actual['Photovoltaics'])
     biomethane = capacity_biomethane_factor * capacity_biomethane
+
+    hydro_yearly += hydro
+    onshore_yearly += onshore
+    offshore_yearly += offshore
+    solar_yearly += solar
 
     month = int(date[5:7])
     if ((month in [10, 11, 12, 01, 02, 03]) and
@@ -113,12 +127,15 @@ while True:
         biomethane_power = 0.0
         storage_methane += biomethane
 
+    biomethane_power_yearly += biomethane_power
+
     total = hydro + onshore + offshore + solar + biomethane_power
     load = float(data_actual['Load']) * load_factor
+    load_yearly += load
     difference = total - load
 
     average_difference += difference
-    average_days += 1
+    average_hours += 1
 
     battery_flow = 0.0
     wasted = 0.0
@@ -163,17 +180,31 @@ while True:
 
     if (date.endswith("-12-31") and data_actual['Time'] == "23:00"):
         print("")
-        print("%s:" % (date[0:4]))
+        print("%s: %ddays" % (date[0:4], hours / 24))
+        print("%6.2fTWh total load, %6.2fGWh average daily load, %4.2fGWh average hourly load." %
+              (load_yearly / 1000000, 24 * load_yearly / hours / 1000, load_yearly / hours / 1000))
         print("Missing %6.2fTWh, wasted %6.2fTWh" % (missing_yearly / 1000000.0, wasted_yearly / 1000000.0))
+        print("Hydro %6.2fTWh, Onshore %6.2fTWh, Offshore %6.2fTWh, Solar %6.2fTWh, Methane %6.2fTWh." %
+              (hydro_yearly / 1000000, onshore_yearly / 1000000, offshore_yearly / 1000000,
+               solar_yearly / 1000000, biomethane_power_yearly / 1000000))
         missing_yearly = 0.0
         wasted_yearly = 0.0
 
         print("")
+
+        load_yearly = 0.0
+        hydro_yearly = 0.0
+        onshore_yearly = 0.0
+        offshore_yearly = 0.0
+        solar_yearly = 0.0
+        biomethane_power_yearly = 0.0
+
+        hours = 0
 
         # we will need forecast data soon.
         if (date[0:4] == "2022"):
             break
 
 print("Totals:")
-print("Average difference is %6.2fGW" % (average_difference / average_days))
+print("Average hourly difference between renewables and grid load is %6.2fGW" % (average_difference / average_hours))
 print("Missing %6.2fTWh, wasted %6.2fTWh" % (missing_total / 1000000.0, wasted_total / 1000000.0))
