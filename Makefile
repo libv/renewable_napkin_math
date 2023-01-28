@@ -7,7 +7,9 @@ all: \
 	lifepo4_grid_storage_150GWh_20ys.txt \
 	lifepo4_grid_storage_100GWh_20ys.txt \
 	lifepo4_grid_storage__50GWh_20ys.txt \
-	simulate_2045.txt
+	simulate_2045.txt \
+	simulate_altmaier.txt \
+	simulate_alternate.txt
 
 consumption_per_year.txt: consumption_per_year.py smard_consumption.csv
 	./consumption_per_year.py smard_consumption.csv > consumption_per_year.txt
@@ -42,7 +44,14 @@ simulation_data_forecast.csv: ./simulation_data_prepare.py smard_consumption_for
 	./simulation_data_prepare.py smard_consumption_forecast.fixed.csv smard_consumption.csv smard_generation_capacity.csv smard_generation_forecast.fixed.csv smard_generation.csv $@ simulation_data_actual.csv
 
 simulate_2045.txt: simulate.py simulation_data_forecast.csv simulation_data_actual.csv
-	./simulate.py simulation_data_forecast.csv simulation_data_actual.csv 2.0 182.5 70 500 5000 36 120 > $@
+	./simulate.py simulation_data_forecast.csv simulation_data_actual.csv 2.0 182.5 70 500 5400 32 110 > $@
+
+# Turns out, that a 500GWh battery covers 99%
+simulate_altmaier.txt: simulate.py simulation_data_forecast.csv simulation_data_actual.csv
+	./simulate.py simulation_data_forecast.csv simulation_data_actual.csv 1.0 74.629 11.676 115.687 500 13 40 > $@
+
+simulate_alternate.txt: simulate.py simulation_data_forecast.csv simulation_data_actual.csv
+	./simulate.py simulation_data_forecast.csv simulation_data_actual.csv 1.0 110 20 230 2700 17 60 > $@
 
 clean:
 	rm -f consumption_per_year.txt
@@ -61,5 +70,7 @@ clean:
 	rm -f simulation_data_forecast.csv
 	rm -f simulation_data_actual.csv
 	rm -f simulate_2045.txt
+	rm -f simulate_altmaier.txt
+	rm -f simulate_alternate.txt
 
 install:

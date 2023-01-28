@@ -43,8 +43,8 @@ capacity_biomethane_factor = 0.90
 capacity_storage_methane = 270000000.0 # 270TWht
 capacity_methane = float(sys.argv[9]) * 1000.0
 capacity_methane_efficiency = 0.45
-# give it a 3 months in the tank
-storage_methane = 90 * 24 * 0.9 * capacity_biomethane
+# give it a 40% full storage
+storage_methane = .4 * capacity_storage_methane
 
 forecast_load_variation = 1.10
 forecast_generation_variation = 0.90
