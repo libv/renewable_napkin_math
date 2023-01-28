@@ -42,7 +42,7 @@ simulation_data_forecast.csv: ./simulation_data_prepare.py smard_consumption_for
 	./simulation_data_prepare.py smard_consumption_forecast.fixed.csv smard_consumption.csv smard_generation_capacity.csv smard_generation_forecast.fixed.csv smard_generation.csv $@ simulation_data_actual.csv
 
 simulate_2045.txt: simulate.py simulation_data_forecast.csv simulation_data_actual.csv
-	./simulate.py simulation_data_forecast.csv simulation_data_actual.csv 2.0 182.5 70 500 5000 50 100 > $@
+	./simulate.py simulation_data_forecast.csv simulation_data_actual.csv 2.0 182.5 70 500 5000 36 120 > $@
 
 clean:
 	rm -f consumption_per_year.txt
