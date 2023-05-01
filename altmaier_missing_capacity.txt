@@ -1,0 +1,122 @@
+The CDU/CSU (catholics) and SPD (socialists) aka GroKo (Grosse Koalition),
+under Angela Merkel, ruled Germany from 2013 til 2021. From 2005 til 2009,
+the same GroKo ruled. And in the time between, they were joined by the
+liberals, a political party even more conducive to lobbying.
+
+During the 2000s, there was a massive boom in renewable installations, and a
+whole new industry in germany had formed to create and install renewable
+capacity. By around 2013, it was clear that renewable energy was not only
+earnest competition to fossil fuels, and the subsidies for new installed
+capacity were starting to weigh heavily. So subsidies were massively reduced,
+and the industry was given quite a bit of uncertainty on the future of said
+subsidies. The resulting 'Altmaier Knick' (Peter Altmaier, the responsible
+minister) saw new solar installations collapse almost immediately, and there
+is a clear similar trend with wind 5ys later.
+
+The collapse of onshore wind installations after 2017 is also attributable to
+the actions of the Bavarian gouvernment, ruled by the CSU (catholics) and
+Freie Waehler (even more conservative than the CSU). Mainly the 10H rule (wind
+turbines need to be further away from populated areas than 10x the height of
+the turbine) made it impossible to install new wind capacity.
+
+The result is the near total collapse of the renewable industry in germany,
+all solar producers and most of wind turbine construction collapsed, and their
+IP and remaining assets got gobbled up by foreign entities.
+
+This application calculates the capacity missing, if we flatline the peak new
+installed capacity in 2012 and 2017 respectively. Take note, the values are
+flatlined, and not extrapolated from previous growth ratios. This is the
+absolute lowest estimate for what capacity is missing.
+
+2000:
+  Solar:	  114MWp: +   0MWp
+  Onshore:	 6097MWp: +   0MWp
+  Offshore:	    0MWp: +   0MWp
+2001:
+  Solar:	  176MWp: +  62MWp
+  Onshore:	 8738MWp: +2641MWp
+  Offshore:	    0MWp: +   0MWp
+2002:
+  Solar:	  296MWp: + 120MWp
+  Onshore:	11976MWp: +3238MWp
+  Offshore:	    0MWp: +   0MWp
+2003:
+  Solar:	  435MWp: + 139MWp
+  Onshore:	14381MWp: +2405MWp
+  Offshore:	    0MWp: +   0MWp
+2004:
+  Solar:	 1105MWp: + 670MWp
+  Onshore:	16419MWp: +2038MWp
+  Offshore:	    0MWp: +   0MWp
+2005:
+  Solar:	 2056MWp: + 951MWp
+  Onshore:	18248MWp: +1829MWp
+  Offshore:	    0MWp: +   0MWp
+2006:
+  Solar:	 2899MWp: + 843MWp
+  Onshore:	20474MWp: +2226MWp
+  Offshore:	    0MWp: +   0MWp
+2007:
+  Solar:	 4170MWp: +1271MWp
+  Onshore:	22116MWp: +1642MWp
+  Offshore:	    0MWp: +   0MWp
+2008:
+  Solar:	 6120MWp: +1950MWp
+  Onshore:	22794MWp: + 678MWp
+  Offshore:	    0MWp: +   0MWp
+2009:
+  Solar:	10566MWp: +4446MWp
+  Onshore:	25697MWp: +2903MWp
+  Offshore:	   35MWp: +  35MWp
+2010:
+  Solar:	18006MWp: +7440MWp
+  Onshore:	26823MWp: +1126MWp
+  Offshore:	   80MWp: +  45MWp
+2011:
+  Solar:	25916MWp: +7910MWp
+  Onshore:	28524MWp: +1701MWp
+  Offshore:	  188MWp: + 108MWp
+2012:
+  Solar:	34077MWp: +8161MWp (Before the crash)
+  Onshore:	30711MWp: +2187MWp
+  Offshore:	  268MWp: +  80MWp
+2013:
+  Solar:	36710MWp: +2633MWp:  5528MWp missing (15.06%)
+  Onshore:	32969MWp: +2258MWp
+  Offshore:	  508MWp: + 240MWp
+2014:
+  Solar:	37900MWp: +1190MWp: 12499MWp missing (32.98%)
+  Onshore:	37620MWp: +4651MWp
+  Offshore:	  994MWp: + 486MWp
+2015:
+  Solar:	39224MWp: +1324MWp: 19336MWp missing (49.30%)
+  Onshore:	41297MWp: +3677MWp
+  Offshore:	 3283MWp: +2289MWp
+2016:
+  Solar:	40679MWp: +1455MWp: 26042MWp missing (64.02%)
+  Onshore:	45283MWp: +3986MWp
+  Offshore:	 4152MWp: + 869MWp
+2017:
+  Solar:	42293MWp: +1614MWp: 32589MWp missing (77.06%)
+  Onshore:	50174MWp: +4891MWp (Before the crash)
+  Offshore:	 5406MWp: +1254MWp (Before the crash)
+2018:
+  Solar:	45158MWp: +2865MWp: 37885MWp missing (83.89%)
+  Onshore:	52328MWp: +2154MWp:  2737MWp missing ( 5.23%)
+  Offshore:	 6393MWp: + 987MWp:   267MWp missing ( 4.18%)
+2019:
+  Solar:	48864MWp: +3706MWp: 42340MWp missing (86.65%)
+  Onshore:	53187MWp: + 859MWp:  6769MWp missing (12.73%)
+  Offshore:	 7555MWp: +1162MWp:   359MWp missing ( 4.75%)
+2020:
+  Solar:	53671MWp: +4807MWp: 45694MWp missing (85.14%)
+  Onshore:	54414MWp: +1227MWp: 10433MWp missing (19.17%)
+  Offshore:	 7787MWp: + 232MWp:  1381MWp missing (17.73%)
+2021:
+  Solar:	59373MWp: +5702MWp: 48153MWp missing (81.10%)
+  Onshore:	56046MWp: +1632MWp: 13692MWp missing (24.43%)
+  Offshore:	 7787MWp: +   0MWp:  2635MWp missing (33.84%)
+2022:
+  Solar:	66480MWp: +7107MWp: 49207MWp missing (74.02%)
+  Onshore:	58521MWp: +2475MWp: 16108MWp missing (27.53%)
+  Offshore:	 8129MWp: + 342MWp:  3547MWp missing (43.63%)

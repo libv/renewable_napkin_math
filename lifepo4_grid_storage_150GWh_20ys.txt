@@ -1,0 +1,74 @@
+
+Analysing the effect of 150.00GWh of grid scale battery storage over a period of 20 years...
+
+year  0: using data from 2015...
+year  1: using data from 2016...
+year  2: using data from 2017...
+year  3: using data from 2018...
+year  4: using data from 2019...
+year  5: using data from 2020...
+year  6: using data from 2021...
+year  7: using data from 2022...
+year  8: using data from 2015...
+year  9: using data from 2016...
+year 10: using data from 2017...
+year 11: using data from 2018...
+year 12: using data from 2019...
+year 13: using data from 2020...
+year 14: using data from 2021...
+year 15: using data from 2022...
+year 16: using data from 2015...
+year 17: using data from 2016...
+year 18: using data from 2017...
+year 19: using data from 2018...
+
+After 20 years (7305 days), a total of 571578.59GWh was cycled through.
+On average, 78.24GWh was cycled through each day, equivalent to 3810.52 full charges (52.16%).
+The capacity of these LiFePO4 batteries will have degraded by 12.97GWh to 137.03GWh (91.35%).
+Total energy loss of storing electricity in these batteries amounted to 571578.59GWh (10%).
+An average increase in generation capacity of 326.02MW is needed to compensate for this loss.
+
+Cost analysis...
+
+Tesla Megapacks (LiFePO4, 2022): status 20221230
+	Installing 1000 4h duration Megapacks (3916.00MWh) costs 1832.52M usd.
+	The cost per GWh is 435.20M EUR.
+	150.00GWh of grid level storage costs 65.28B EUR.
+	Maintaining 1000 Megapacks costs 4.82M usd, with an increase of 2.0% per year.
+	Maintaining 150.00GWh over 20 years costs 4173.22M EUR in maintenance
+	Over 20 years, the cost per MWh cycled is 121.51EUR, or 12.15cents per kWh.
+
+Server rack batteries (Trophy, 15.36kWh): status 20221230
+	A single 15.36kWh server rack battery costs 4.70k usd, when bought online in the US.
+	The cost per GWh is 284.27M EUR.
+	150.00GWh of grid level storage costs 42.64B EUR.
+	Over 20 years, the cost per MWh cycled is 74.60EUR, or 7.46cents per kWh.
+
+Raw LiFePO4 cells (Eve LF-280k, 280Ah, from Qiso): status 20221230
+	A single 896.00Wh raw LiFePO4 cell costs 93.80 EUR, for 5000 units, with shipping and customs included.
+	The cost per GWh is 104.69M EUR.
+	150.00GWh of grid level storage costs 15.70B EUR.
+	Over 20 years, the cost per MWh cycled is 27.47EUR, or 2.75cents per kWh.
+
+While the server rack batteries and raw cells might at first not seem relevant,
+their overal cost and cost per kWh cycled are good future cost datapoints.
+
+Tesla Megapacks are sold out 2 years into the future, and the margins are going 
+to be enormous. Yet they still only cost 435.20EUR per kWh of storage, or 
+12.15cents per kWh delivered for a 150.00GWh install over 20 years.
+
+While a server rack battery has only cells, a bms, the container and some cables, 
+given the enormous demand, it is a good metric for where the price for actual grid 
+scale storage should be today without a Tesla markup.
+
+Raw LiFePO4 cells are astoundingly good value, even with customs and shipping to 
+germany included. And yet, the actual price, today, for manufacturing such cells is 
+going to be half still. At 104.69EUR per kWh of capacity, and a cycle cost of 2.75cents 
+per kWh delivered, it is where the cost of grid level storage will be, all in, 
+several years in the future, when supply matches demand more closely.
+
+Even at 121.51EUR/MWh delivered, an expensive Tesla megapack compares favourably compared 
+to the nuclear power plant (EDFs EPR) being built at Hinkley Point C, which has 
+a strike price of 118.85EUR/MWh (106.12GBP/MWh in 2022). This is especially striking given 
+that battery storage does double duty, and a nuclear power plant is only financially viable
+at a given high constant baseload over its lifetime.
