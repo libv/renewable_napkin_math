@@ -88,6 +88,10 @@ def cycle(date, cycle_volume):
     # Battery round-trip is 90% efficient, mostly inverter losses.
     # But this is round-trip, so when charging it is 5%.
     # When discharging, 5% of actual battery capacity is lost again.
+    #
+    # For reference, Tesla claims a 93.5% round trip efficiency for
+    # their megapacks at .25C. (4h for a full discharge)
+    # https://electrek.co/2022/09/14/tesla-megapack-update-specs-price/
     cycle_percentage = 100.0 * cycle_volume / (capacity * 0.95)
 
     dod = 5 * int(cycle_percentage / 5)
@@ -152,7 +156,7 @@ if (days_short):
           (days_short, 100.0 * days_short / days))
 print("The capacity of these LiFePO4 batteries will have degraded by %4.2fGWh to %4.2fGWh (%2.2f%%)." %
       ((capacity_original - capacity) / 1000.0, capacity / 1000.0,  100.0 * capacity / capacity_original))
-print("Total energy loss of storing electricity in these batteries amounted to %8.2fGWh (10%%)." % (volume_total / 1000.0))
+print("Total energy loss of storing electricity in these batteries amounted to %8.2fGWh (10%%)." % (volume_total / 10000.0))
 print("An average increase in generation capacity of %6.2fMW is needed to compensate for this loss." %
       (volume_total / days / 240.0))
 print("")

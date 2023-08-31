@@ -26,7 +26,7 @@ After 20 years (7305 days), a total of 304081.28GWh was cycled through.
 On average, 41.63GWh was cycled through each day, equivalent to 6081.63 full charges (83.25%).
 On 7099 days, the available storage was insufficient to level out the grid load (97.18%).
 The capacity of these LiFePO4 batteries will have degraded by 12.13GWh to 37.87GWh (75.74%).
-Total energy loss of storing electricity in these batteries amounted to 304081.28GWh (10%).
+Total energy loss of storing electricity in these batteries amounted to 30408.13GWh (10%).
 An average increase in generation capacity of 173.44MW is needed to compensate for this loss.
 
 Cost analysis...
