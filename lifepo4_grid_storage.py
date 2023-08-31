@@ -160,12 +160,12 @@ print("")
 print("Cost analysis...")
 print("")
 
-# Status 20221230: https://www.tesla.com/megapack/design
-print("Tesla Megapacks (LiFePO4, 2022): status 20221230")
-capacity_known = 3916000.0 # kWh
-cost_known = 1832519850.0 # usd
-usd_to_eur = 0.93
-# annual maintenance cost $4,821,480
+# Status 20230831: https://www.tesla.com/megapack/design
+print("Tesla Megapacks (LiFePO4, 2022): status 20230831")
+capacity_known = 3854400.0 # kWh
+cost_known = 1593272170.0 # usd
+usd_to_eur = 0.92
+# annual maintenance cost $4,966,480
 # price escalates at 2% per year
 print("\tInstalling 1000 4h duration Megapacks (%.2fMWh) costs %.2fM usd." %
       (capacity_known / 1000.0, cost_known / 1000000.0))
@@ -175,9 +175,9 @@ print("\tThe cost per GWh is %5.2fM EUR." %
 cost_total = cost_per_kwh_tesla * capacity_original
 print("\t%5.2fGWh of grid level storage costs %2.2fB EUR." %
       (capacity_original / 1000.0, cost_total / 1000000.0))
-maintenance_cost_tesla = 4821480
+maintenance_cost_tesla = 4966480
 maintenance_cost_increase_tesla = .02
-print("\tMaintaining 1000 Megapacks costs %1.2fM usd, with an increase of %1.1f%% per year." %
+print("\tMaintaining 1000 Megapacks costs %1.2fM usd yearly, with an increase of %1.1f%% per year." %
       (maintenance_cost_tesla / 1000000.0, maintenance_cost_increase_tesla * 100))
 maintenance_cost_base = (maintenance_cost_tesla * usd_to_eur / capacity_known * capacity_original)
 maintenance_cost_tesla_total = 0.0
@@ -191,13 +191,13 @@ print("\tOver %d years, the cost per MWh cycled is %3.2fEUR, or %3.2fcents per k
 print("")
 
 
-# Status 20221230: https://trophybattery.com/index.php/model-48v220e-1-2/
+# Status 20230829: https://www.gobelpower.com/gobel-power-gpsr1pc200-512v-280ah-lifepo4-battery_p114.html
 capacity_known = 15.36 # kWh
-cost_known = 4695.0 # usd
-print("Server rack batteries (Trophy, 15.36kWh): status 20221230")
-print("\tA single %2.2fkWh server rack battery costs %.2fk usd, when bought online in the US." %
+cost_known = 2431.0 # eur
+print("Server rack batteries (Gobel Power, 15.36kWh): status 20230829")
+print("\tA single %2.2fkWh server rack battery costs %.2fk EUR, when bought online in china." %
       (capacity_known, cost_known / 1000.0))
-cost_per_kwh_rack = cost_known * usd_to_eur / capacity_known
+cost_per_kwh_rack = cost_known / capacity_known
 print("\tThe cost per GWh is %5.2fM EUR." %
       (cost_per_kwh_rack))
 cost_total = cost_per_kwh_rack * capacity_original
@@ -208,12 +208,12 @@ print("\tOver %d years, the cost per MWh cycled is %3.2fEUR, or %3.2fcents per k
       (years, cost_per_kwh_delivered_rack * 10, cost_per_kwh_delivered_rack))
 print("")
 
-# Status 20221230: https://qiso.en.alibaba.com/
-# Eve LF-280K, 5000+ pieces, delivered with customs to germany: 93.80EUR
+# Status 20230831: https://qiso.en.alibaba.com/
+# Eve LF-280K, 500+ pieces, delivered from within the EU: 73.02EUR
 capacity_known = 3.2 * .28 # kWh
-cost_known = 93.8 # eur
-print("Raw LiFePO4 cells (Eve LF-280k, 280Ah, from Qiso): status 20221230")
-print("\tA single %3.2fWh raw LiFePO4 cell costs %.2f EUR, for 5000 units, with shipping and customs included." %
+cost_known = 73.02 # eur
+print("Raw LiFePO4 cells (Eve LF-280k, 280Ah, from Qiso): status 20230831")
+print("\tA single %3.2fWh raw LiFePO4 cell costs %.2f EUR, for a minimum of 500 units, shipped from within the EU." %
       (capacity_known * 1000.0, cost_known))
 cost_per_kwh_raw = cost_known / capacity_known
 print("\tThe cost per GWh is %5.2fM EUR." %
@@ -229,29 +229,29 @@ print("")
 print("While the server rack batteries and raw cells might at first not seem relevant,")
 print("their overal cost and cost per kWh cycled are good future cost datapoints.")
 print("")
-print("Tesla Megapacks are sold out 2 years into the future, and the margins are going ")
-print("to be enormous. Yet they still only cost %3.2fEUR per kWh of storage, or " % (cost_per_kwh_tesla))
+print("Tesla Megapacks are sold out 2 years into the future, and the margins are going")
+print("to be enormous. Yet they still only cost %3.2fEUR per kWh of storage, or" % (cost_per_kwh_tesla))
 print("%3.2fcents per kWh delivered for a %5.2fGWh install over %d years." %
       (cost_per_kwh_delivered_tesla, capacity_original / 1000.0, duration))
 print("")
-print("While a server rack battery has only cells, a bms, the container and some cables, ")
-print("given the enormous demand, it is a good metric for where the price for actual grid ")
+print("While a server rack battery has only cells, a bms, the container and some cables,")
+print("given the enormous demand, it is a good metric for where the price for actual grid")
 print("scale storage should be today without a Tesla markup.")
 print("")
-print("Raw LiFePO4 cells are astoundingly good value, even with customs and shipping to ")
-print("germany included. And yet, the actual price, today, for manufacturing such cells is ")
-print("going to be half still. At %5.2fEUR per kWh of capacity, and a cycle cost of %3.2fcents "
+print("Raw LiFePO4 cells are astoundingly good value, even with customs and shipping to")
+print("germany included. And yet, the actual price, today, for manufacturing such cells is")
+print("going to be half still. At %5.2fEUR per kWh of capacity, and a cycle cost of %3.2fcents"
       % (cost_per_kwh_raw, cost_per_kwh_delivered_raw))
-print("per kWh delivered, it is where the cost of grid level storage will be, all in, ")
+print("per kWh delivered, it is where the cost of grid level storage will be, all in,")
 print("several years in the future, when supply matches demand more closely.")
 
 print("")
 # status december 1st 2021: https://www.lowcarboncontracts.uk/cfds/hinkley-point-c
 strike_price_hinkley_gbp = 106.12
 gbp_to_eur = 1.12 # 20221230
-print("Even at %3.2fEUR/MWh delivered, an expensive Tesla megapack compares favourably compared \n"
-      "to the nuclear power plant (EDFs EPR) being built at Hinkley Point C, which has \n"
-      "a strike price of %3.2fEUR/MWh (%3.2fGBP/MWh in 2022). This is especially striking given \n"
+print("Even at %3.2fEUR/MWh delivered, an expensive Tesla megapack compares favourably compared\n"
+      "to the nuclear power plant (EDFs EPR) being built at Hinkley Point C, which has\n"
+      "a strike price of %3.2fEUR/MWh (%3.2fGBP/MWh in 2022). This is especially striking given\n"
       "that battery storage does double duty, and a nuclear power plant is only financially viable\n"
       "at a given high constant baseload over its lifetime." %
       (cost_per_kwh_delivered_tesla * 10, strike_price_hinkley_gbp * gbp_to_eur, strike_price_hinkley_gbp))

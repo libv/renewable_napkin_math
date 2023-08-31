@@ -31,45 +31,45 @@ An average increase in generation capacity of 173.44MW is needed to compensate f
 
 Cost analysis...
 
-Tesla Megapacks (LiFePO4, 2022): status 20221230
-	Installing 1000 4h duration Megapacks (3916.00MWh) costs 1832.52M usd.
-	The cost per GWh is 435.20M EUR.
-	50.00GWh of grid level storage costs 21.76B EUR.
-	Maintaining 1000 Megapacks costs 4.82M usd, with an increase of 2.0% per year.
-	Maintaining 50.00GWh over 20 years costs 1391.07M EUR in maintenance
-	Over 20 years, the cost per MWh cycled is 76.13EUR, or 7.61cents per kWh.
+Tesla Megapacks (LiFePO4, 2022): status 20230831
+	Installing 1000 4h duration Megapacks (3854.40MWh) costs 1593.27M usd.
+	The cost per GWh is 380.30M EUR.
+	50.00GWh of grid level storage costs 19.01B EUR.
+	Maintaining 1000 Megapacks costs 4.97M usd yearly, with an increase of 2.0% per year.
+	Maintaining 50.00GWh over 20 years costs 1440.15M EUR in maintenance
+	Over 20 years, the cost per MWh cycled is 67.27EUR, or 6.73cents per kWh.
 
-Server rack batteries (Trophy, 15.36kWh): status 20221230
-	A single 15.36kWh server rack battery costs 4.70k usd, when bought online in the US.
-	The cost per GWh is 284.27M EUR.
-	50.00GWh of grid level storage costs 14.21B EUR.
-	Over 20 years, the cost per MWh cycled is 46.74EUR, or 4.67cents per kWh.
+Server rack batteries (Gobel Power, 15.36kWh): status 20230829
+	A single 15.36kWh server rack battery costs 2.43k EUR, when bought online in china.
+	The cost per GWh is 158.27M EUR.
+	50.00GWh of grid level storage costs 7.91B EUR.
+	Over 20 years, the cost per MWh cycled is 26.02EUR, or 2.60cents per kWh.
 
-Raw LiFePO4 cells (Eve LF-280k, 280Ah, from Qiso): status 20221230
-	A single 896.00Wh raw LiFePO4 cell costs 93.80 EUR, for 5000 units, with shipping and customs included.
-	The cost per GWh is 104.69M EUR.
-	50.00GWh of grid level storage costs 5.23B EUR.
-	Over 20 years, the cost per MWh cycled is 17.21EUR, or 1.72cents per kWh.
+Raw LiFePO4 cells (Eve LF-280k, 280Ah, from Qiso): status 20230831
+	A single 896.00Wh raw LiFePO4 cell costs 73.02 EUR, for a minimum of 500 units, shipped from within the EU.
+	The cost per GWh is 81.50M EUR.
+	50.00GWh of grid level storage costs 4.07B EUR.
+	Over 20 years, the cost per MWh cycled is 13.40EUR, or 1.34cents per kWh.
 
 While the server rack batteries and raw cells might at first not seem relevant,
 their overal cost and cost per kWh cycled are good future cost datapoints.
 
-Tesla Megapacks are sold out 2 years into the future, and the margins are going 
-to be enormous. Yet they still only cost 435.20EUR per kWh of storage, or 
-7.61cents per kWh delivered for a 50.00GWh install over 20 years.
+Tesla Megapacks are sold out 2 years into the future, and the margins are going
+to be enormous. Yet they still only cost 380.30EUR per kWh of storage, or
+6.73cents per kWh delivered for a 50.00GWh install over 20 years.
 
-While a server rack battery has only cells, a bms, the container and some cables, 
-given the enormous demand, it is a good metric for where the price for actual grid 
+While a server rack battery has only cells, a bms, the container and some cables,
+given the enormous demand, it is a good metric for where the price for actual grid
 scale storage should be today without a Tesla markup.
 
-Raw LiFePO4 cells are astoundingly good value, even with customs and shipping to 
-germany included. And yet, the actual price, today, for manufacturing such cells is 
-going to be half still. At 104.69EUR per kWh of capacity, and a cycle cost of 1.72cents 
-per kWh delivered, it is where the cost of grid level storage will be, all in, 
+Raw LiFePO4 cells are astoundingly good value, even with customs and shipping to
+germany included. And yet, the actual price, today, for manufacturing such cells is
+going to be half still. At 81.50EUR per kWh of capacity, and a cycle cost of 1.34cents
+per kWh delivered, it is where the cost of grid level storage will be, all in,
 several years in the future, when supply matches demand more closely.
 
-Even at 76.13EUR/MWh delivered, an expensive Tesla megapack compares favourably compared 
-to the nuclear power plant (EDFs EPR) being built at Hinkley Point C, which has 
-a strike price of 118.85EUR/MWh (106.12GBP/MWh in 2022). This is especially striking given 
+Even at 67.27EUR/MWh delivered, an expensive Tesla megapack compares favourably compared
+to the nuclear power plant (EDFs EPR) being built at Hinkley Point C, which has
+a strike price of 118.85EUR/MWh (106.12GBP/MWh in 2022). This is especially striking given
 that battery storage does double duty, and a nuclear power plant is only financially viable
 at a given high constant baseload over its lifetime.
