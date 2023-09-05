@@ -196,9 +196,9 @@ print("")
 
 
 # Status 20230829: https://www.gobelpower.com/gobel-power-gpsr1pc200-512v-280ah-lifepo4-battery_p114.html
-capacity_known = 15.36 # kWh
+capacity_known = 51.2 * .28 # kWh
 cost_known = 2431.0 # eur
-print("Server rack batteries (Gobel Power, 15.36kWh): status 20230829")
+print("Server rack batteries (Gobel Power, %.3fkWh): status 20230829" % capacity_known)
 print("\tA single %2.2fkWh server rack battery costs %.2fk EUR, when bought online in china." %
       (capacity_known, cost_known / 1000.0))
 cost_per_kwh_rack = cost_known / capacity_known

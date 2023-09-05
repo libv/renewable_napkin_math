@@ -38,11 +38,11 @@ Tesla Megapacks (LiFePO4, 2022): status 20230831
 	Maintaining 150.00GWh over 20 years costs 4320.46M EUR in maintenance
 	Over 20 years, the cost per MWh cycled is 107.36EUR, or 10.74cents per kWh.
 
-Server rack batteries (Gobel Power, 15.36kWh): status 20230829
-	A single 15.36kWh server rack battery costs 2.43k EUR, when bought online in china.
-	The cost per GWh is 158.27M EUR.
-	150.00GWh of grid level storage costs 23.74B EUR.
-	Over 20 years, the cost per MWh cycled is 41.53EUR, or 4.15cents per kWh.
+Server rack batteries (Gobel Power, 14.336kWh): status 20230829
+	A single 14.34kWh server rack battery costs 2.43k EUR, when bought online in china.
+	The cost per GWh is 169.57M EUR.
+	150.00GWh of grid level storage costs 25.44B EUR.
+	Over 20 years, the cost per MWh cycled is 44.50EUR, or 4.45cents per kWh.
 
 Raw LiFePO4 cells (Eve LF-280k, 280Ah, from Qiso): status 20230831
 	A single 896.00Wh raw LiFePO4 cell costs 73.02 EUR, for a minimum of 500 units, shipped from within the EU.
