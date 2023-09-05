@@ -1,3 +1,8 @@
+If the artificial neutering of renewables by the SPD and CDU/CSU had not
+happened in 2012 (aka. Altmaier Knick), how much methane would we have been
+able to offset, and how much would this methane have cost in day ahead pricing?
+
+Calculating for 2017:
 2017-01-01:  27.59GWh of 109.78GWh ( 25.13%):   0.54M EUR of   2.14M EUR
 2017-01-02:  15.99GWh of 185.30GWh (  8.63%):   0.31M EUR of   3.61M EUR
 2017-01-03:  11.99GWh of 152.87GWh (  7.84%):   0.23M EUR of   2.99M EUR
@@ -368,6 +373,7 @@
   18.198TWh of  51.161TWh of methane could have been offset (35.57%).
   0.32B EUR of  0.95B EUR at day-ahead market prices could have been saved (33.94%).
 
+Calculating for 2018:
 2018-01-01:  30.33GWh of 127.98GWh ( 23.70%):   0.59M EUR of   2.50M EUR
 2018-01-02:  25.29GWh of 227.60GWh ( 11.11%):   0.49M EUR of   4.45M EUR
 2018-01-03:  20.72GWh of 177.80GWh ( 11.65%):   0.40M EUR of   3.45M EUR
@@ -738,6 +744,7 @@
   32.802TWh of  85.756TWh of methane could have been offset (38.25%).
   0.77B EUR of  1.97B EUR at day-ahead market prices could have been saved (38.98%).
 
+Calculating for 2019:
 2019-01-01:  96.03GWh of 137.20GWh ( 70.00%):   2.16M EUR of   3.08M EUR
 2019-01-02: 109.27GWh of 217.13GWh ( 50.32%):   2.46M EUR of   4.88M EUR
 2019-01-03:  67.47GWh of 395.88GWh ( 17.04%):   1.52M EUR of   8.91M EUR
@@ -1108,6 +1115,7 @@
   51.818TWh of 109.239TWh of methane could have been offset (47.44%).
   0.73B EUR of  1.60B EUR at day-ahead market prices could have been saved (45.72%).
 
+Calculating for 2020:
 2020-01-01:  95.11GWh of 231.19GWh ( 41.14%):   1.21M EUR of   2.95M EUR
 2020-01-02: 133.80GWh of 265.56GWh ( 50.39%):   1.76M EUR of   3.49M EUR
 2020-01-03: 193.31GWh of 218.92GWh ( 88.30%):   2.44M EUR of   2.76M EUR
@@ -1479,6 +1487,7 @@
   65.188TWh of 118.252TWh of methane could have been offset (55.13%).
   0.65B EUR of  1.21B EUR at day-ahead market prices could have been saved (53.30%).
 
+Calculating for 2021:
 2021-01-01:  66.66GWh of 326.64GWh ( 20.41%):   1.12M EUR of   5.47M EUR
 2021-01-02:  60.49GWh of 356.87GWh ( 16.95%):   1.09M EUR of   6.41M EUR
 2021-01-03: 174.46GWh of 236.61GWh ( 73.73%):   3.27M EUR of   4.43M EUR
@@ -1849,6 +1858,7 @@
   63.700TWh of 104.810TWh of methane could have been offset (60.78%).
   2.97B EUR of  4.86B EUR at day-ahead market prices could have been saved (61.13%).
 
+Calculating for 2022:
 2022-01-01: 132.19GWh of 132.19GWh (100.00%):  12.14M EUR of  12.14M EUR
 2022-01-02: 127.42GWh of 127.42GWh (100.00%):  11.70M EUR of  11.70M EUR
 2022-01-03: 185.44GWh of 185.44GWh (100.00%):  17.07M EUR of  17.07M EUR

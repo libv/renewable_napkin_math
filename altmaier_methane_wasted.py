@@ -74,6 +74,12 @@ while True:
     if (int(missing_entry['Year'][0:4]) == (year_start - 1)):
         break
 
+print("If the artificial neutering of renewables by the SPD and CDU/CSU had not")
+print("happened in 2012 (aka. Altmaier Knick), how much methane would we have been")
+print("able to offset, and how much would this methane have cost in day ahead pricing?")
+
+print("")
+
 methane_used_total = 0.0
 methane_offset_total = 0.0
 methane_used_cost_total = 0.0
@@ -93,6 +99,8 @@ def methane_missing_yearly(year, solar_factor, solar_factor_adjustment,
     methane_offset_yearly = 0.0
     methane_used_cost_yearly = 0.0
     methane_offset_cost_yearly = 0.0
+
+    print("Calculating for %s:" % year)
 
     while True:
         day = generation_entry['Date']
